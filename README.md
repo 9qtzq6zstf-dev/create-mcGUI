@@ -42,10 +42,15 @@ Change the GUI of vanilla and some mods to the Create style.
 
 ### 📄 许可证
 
-本资源包采用 **All Rights Reserved (ARR)** 许可证。
+本资源包采用 **All Rights Reserved (ARR)** 许可证，并附有以下**附加许可**：
 
-- ❌ 未经授权，不得**复制、分发**本资源包
-- ✅ 欢迎**提交 Pull Request** 贡献改进（提交即视为同意以 ARR 授权）
+- ✅ **允许**录制视频、截图、直播展示（包括商业性质的内容创作）
+- ✅ **允许**整合包通过 **CurseForge 官方依赖拉取机制** 包含本资源包（但不得直接分发 `.zip` 文件）
+- ❌ **禁止**直接转发或重新分发本资源包文件（`.zip` 或文件夹）
+- ❌ **禁止**修改后向他人二次分发
+- ❌ **禁止**将本资源包用于商业售卖
+
+> 整合包作者：请勿将本资源包的 `.zip` 文件直接打包到整合包下载中，请引导玩家通过 CurseForge 下载，或使用 CurseForge 的自动依赖拉取功能。
 
 ### 🤝 贡献
 
@@ -97,10 +102,15 @@ If you encounter any issues, feel free to open an issue [here](https://github.co
 
 ### 📄 License
 
-This pack is licensed under **All Rights Reserved (ARR)**.
+This pack is licensed under **All Rights Reserved (ARR)**, with the following **additional permissions**:
 
-- ❌ Unauthorized copying or redistribution is prohibited
-- ✅ Pull Requests are welcome (submission implies agreement to ARR licensing)
+- ✅ **Allowed** to record videos, take screenshots, and stream content that includes this pack (including commercial content creation)
+- ✅ **Allowed** to include this pack in modpacks via **CurseForge's official dependency fetching system** (direct redistribution of the `.zip` file is **not** permitted)
+- ❌ **Prohibited** to redistribute the pack file (`.zip` or folder) through any direct download link
+- ❌ **Prohibited** to distribute modified versions of this pack to others
+- ❌ **Prohibited** to sell this pack or use it in commercial products
+
+> Modpack authors: Please do not bundle the `.zip` file directly into your modpack download. Instead, direct players to download from CurseForge, or use CurseForge's automatic dependency resolution.
 
 ### 🤝 Contributing
 
