@@ -61,6 +61,7 @@ Change the GUI of vanilla and some mods to the Create style.
 ### 🙏 致谢
 
 - [机械动力（Create）](https://www.curseforge.com/minecraft/mc-mods/create) —— 风格灵感来源
+- [fffqu](https://github.com/fffqu) —— 车万女仆（Touhou Little Maid）相关内容的贡献
 - 所有测试和支持本项目的玩家
 
 ---
@@ -121,6 +122,7 @@ Issues and pull requests are both welcome!
 ### 🙏 Credits
 
 - [Create mod](https://www.curseforge.com/minecraft/mc-mods/create) – style inspiration
+- [fffqu](https://github.com/fffqu) – contributions related to Touhou Little Maid content
 - All players who tested and supported this pack
 
 ---
