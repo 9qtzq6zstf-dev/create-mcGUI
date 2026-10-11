@@ -1,7 +1,7 @@
 {
   "pack": {
     "pack_format": 15,
-    "supported_formats": [15, 18, 22, 32, 34, 42],
+    "supported_formats": [15, 34],
     "description": "来自咖喱恶魔"
   }
 }
