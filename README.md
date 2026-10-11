@@ -31,7 +31,7 @@ Change the GUI of vanilla and some mods to the Create style.
 
 | 项目 | 信息 |
 |------|------|
-| **游戏版本** | 优先支持 Minecraft **1.21.1**，其他版本（如 1.20.1）正在适配中 |
+| **游戏版本** | 理论上已适配 **1.20.1 到 1.21.3**，如有任何问题请及时反馈 |
 | **推荐搭配** | 机械动力（Create）模组 |
 
 ### ⚠️ 已知问题
@@ -61,7 +61,7 @@ Change the GUI of vanilla and some mods to the Create style.
 ### 🙏 致谢
 
 - [机械动力（Create）](https://www.curseforge.com/minecraft/mc-mods/create) —— 风格灵感来源
-- [fffqu](https://github.com/fffqu) —— 车万女仆（Touhou Little Maid）相关内容的贡献
+- [fffqu](https://github.com/fffqu) —— 对资源包开发的贡献
 - 所有测试和支持本项目的玩家
 
 ---
@@ -92,7 +92,7 @@ This resource pack overhauls the GUI of vanilla Minecraft and several mods to ma
 
 | Item | Info |
 |------|------|
-| **Game Versions** | Priority support for Minecraft **1.21.1** – other versions (e.g., 1.20.1) are currently being adapted |
+| **Game Versions** | Theoretically adapted for **1.20.1 to 1.21.3**. If you encounter any issues, please report them. |
 | **Recommended** | Create mod |
 
 ### ⚠️ Known Issues
@@ -122,9 +122,8 @@ Issues and pull requests are both welcome!
 ### 🙏 Credits
 
 - [Create mod](https://www.curseforge.com/minecraft/mc-mods/create) – style inspiration
-- [fffqu](https://github.com/fffqu) – contributions related to Touhou Little Maid content
+- [fffqu](https://github.com/fffqu) – contributions to the resource pack development
 - All players who tested and supported this pack
 
----
 
 **Enjoy!** 🚂
