@@ -43,7 +43,7 @@ Change the GUI of vanilla and some mods to the Create style.
 
 - 暂无
 
-如有其他问题，欢迎在 [Issues](https://github.com/9qtzq6zstf-dev/create-mcGUI) 反馈。
+如有其他问题，欢迎在 [Issues](https://github.com/9qtzq6zstf-dev/create-mcGUI/issue) 反馈。
 
 ### 📄 许可证
 
@@ -109,7 +109,7 @@ This resource pack overhauls the GUI of vanilla Minecraft and several mods to ma
 
 - None
 
-If you encounter any issues, feel free to open an issue [here](https://github.com/9qtzq6zstf-dev/create-mcGUI).
+If you encounter any issues, feel free to open an issue [here](https://github.com/9qtzq6zstf-dev/create-mcGUI/issue).
 
 ### 📄 License
 
