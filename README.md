@@ -15,12 +15,17 @@ Change the GUI of vanilla and some mods to the Create style.
 
 ### ✨ 主要特性
 
-- 全面覆盖原版所有容器界面，包括工作台、铁砧、熔炉、酿造台、箱子等
-- 额外适配精致存储（Refined Storage）等常用模组的 GUI
+- 全面覆盖原版所有容器界面，包括工作台、铁砧、熔炉、酿造台等。
+- 扩展了对热门模组 GUI 的兼容，包括：
+  - Create（机械动力） 及其生态
+  - Farmer's Delight（农夫乐事）（烹饪与农耕）
+  - JEI（Just Enough Items）（配方查看）
+  - Curios API（饰品栏）（饰品槽位）
+  - Touhou Little Maid（车万女仆）（女仆实体 GUI）
 
 ### 📥 安装方法
 
-1. 下载本资源包（`.zip` 文件）
+1. 请前往 [CurseForge](https://www.curseforge.com/minecraft/texture-packs/create-mcgui) 下载本资源包（`.zip` 文件），以支持正规分发。
 2. 打开 Minecraft，进入 **选项 → 资源包**
 3. 将下载的 `.zip` 拖入资源包界面
 4. 启用并加载即可
@@ -76,12 +81,17 @@ This resource pack overhauls the GUI of vanilla Minecraft and several mods to ma
 
 ### ✨ Key Features
 
-- Full coverage of all vanilla containers: crafting table, anvil, furnace, brewing stand, chests, and more
-- Additional support for popular mod GUIs such as Refined Storage
+- Full coverage of all vanilla containers: crafting table, anvil, furnace, brewing stand, and more.
+- Extended GUI compatibility for popular mods, including:
+  - Create (and its ecosystem)
+  - Farmer's Delight (cooking & farming)
+  - JEI (Just Enough Items) (recipe viewing)
+  - Curios API (accessory slots)
+  - Touhou Little Maid (maid entity GUI)
 
 ### 📥 Installation
 
-1. Download the resource pack (`.zip` file)
+1. Please download the resource pack (`.zip` file) from [CurseForge](https://www.curseforge.com/minecraft/texture-packs/create-mcgui) to support official distribution.
 2. Launch Minecraft and go to **Options → Resource Packs**
 3. Drag the downloaded `.zip` file into the resource pack interface
 4. Enable and load the pack
