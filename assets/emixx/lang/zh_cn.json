@@ -1,0 +1,15 @@
+{
+    "emixx.tooltip.expand": "点击展开",
+    "emixx.tooltip.collapse": "点击折叠",
+    "emixx.tooltip.groupMember": "按下 %s 折叠",
+    "emixx.configuration.stackGroups": "堆叠组",
+    "emixx.configuration.stackGroups.memberTooltip": "显示折叠快捷键提示",
+    "emixx.configuration.stackGroups.enable": "启用堆叠组",
+    "emixx.configuration.stackGroups.showBorder": "显示组边框",
+    "emixx.configuration.stackGroups.showFill": "显示组填充",
+    "emixx.configuration.stackGroups.edit": "编辑组",
+    "emixx.configuration.creativeModeTabs": "创造模式标签页",
+    "emixx.configuration.creativeModeTabs.enable": "启用创造模式标签页",
+    "emixx.editor.pressDelete": "按下 Delete 键移除",
+    "emixx.key.collapseGroup": "折叠组"
+}
