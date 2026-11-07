@@ -66,9 +66,7 @@ Change the GUI of vanilla and some mods to the Create style.
 ### 🙏 致谢
 
 - [<img src="https://github.com/simibubi.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> 机械动力（Create）](https://www.curseforge.com/minecraft/mc-mods/create) —— 风格灵感来源
-- [<img src="https://github.com/fffqu.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> fffqu](https://github.com/fffqu) —— 对资源包开发的贡献
-- [<img src="https://github.com/yinjiu019.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> yinjiu019](https://github.com/yinjiu019) —— 对资源包开发的贡献
-- 百花藤 —— 对资源包开发的贡献
+- 感谢对本包的贡献：<br>[<img src="https://github.com/fffqu.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> fffqu](https://github.com/fffqu)<br>[<img src="https://github.com/yinjiu019.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> yinjiu019](https://github.com/yinjiu019)<br>[<img src="https://github.com/ouyangmingcheng.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> ouyangmingcheng](https://github.com/ouyangmingcheng)<br><img src="https://api.dicebear.com/7.x/bottts/svg?seed=Flower" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> 百花藤
 - 所有测试和支持本项目的玩家
 
 ---
@@ -134,9 +132,7 @@ Issues and pull requests are both welcome!
 ### 🙏 Credits
 
 - [<img src="https://github.com/simibubi.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> Create mod](https://www.curseforge.com/minecraft/mc-mods/create) – style inspiration
-- [<img src="https://github.com/fffqu.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> fffqu](https://github.com/fffqu) – contributions to the resource pack development
-- [<img src="https://github.com/yinjiu019.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> yinjiu019](https://github.com/yinjiu019) – contributions to the resource pack development
--  百花藤 – contributions to the resource pack development
+- Thanks for the contributions to this pack:<br>[<img src="https://github.com/fffqu.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> fffqu](https://github.com/fffqu)<br>[<img src="https://github.com/yinjiu019.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> yinjiu019](https://github.com/yinjiu019)<br>[<img src="https://github.com/ouyangmingcheng.png" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> ouyangmingcheng](https://github.com/ouyangmingcheng)<br><img src="https://api.dicebear.com/7.x/bottts/svg?seed=Flower" width="24" height="24" style="border-radius:50%; vertical-align: middle;"> 百花藤
 - All players who tested and supported this pack
 
 
