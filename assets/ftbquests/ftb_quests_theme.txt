@@ -1,0 +1,9 @@
+//使用置物板形状时请在任务编辑中加上"create"标签
+//When using a placard shape, add the "create" tag in the quest editor
+
+background: ftblibrary:textures/gui/background_squares.png; color=#DC666666; tile_size=64
+[#create]
+quest_not_started_color: #01FFFFFF
+quest_started_color:     #01FFFFFF
+quest_locked_color:      #01FFFFFF
+quest_completed_color:   #FFFFFFFF
