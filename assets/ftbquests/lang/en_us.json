@@ -1,0 +1,9 @@
+{
+  "ftbquests.quest.shape.placard_square": "placard Square",
+  "ftbquests.quest.shape.placard_diamond": "placard Diamond",
+  "item.ftbquests.book": "Quest List",
+  "item.ftbquests.book.disabled": "Quest List GUI is disabled!",
+  "ftbquests.file": "Quest List",
+  "ftbquests.file.drop_book_on_death": "Drop FTB Quest List on Death",
+  "ftbquests.pinned.auto_pin_follows.tooltip": "• Chapter: only available quests in the last-viewed chapter are shown\n• Quest List: available quests from every chapter are shown"
+}

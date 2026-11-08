@@ -1,0 +1,10 @@
+{
+  "ftbquests.quest.shape.placard_square": "置物板方形",
+  "ftbquests.quest.shape.placard_diamond": "置物板菱形",
+  "item.ftbquests.book": "任务清单",
+  "item.ftbquests.book.disabled": "任务清单界面已禁用！",
+  "ftbquests.file": "任务清单",
+  "ftbquests.file.drop_book_on_death": "死亡时掉落FTB任务清单",
+  "ftbquests.pinned.auto_pin_follows.tooltip": "• 章节：仅显示上次查看章节中的可用任务\n• 任务清单：显示每个章节的可用任务",
+  "ftbquests.xlate.fallback_locale.tooltip": "当前语言环境中未找到翻译时使用的语言环境\n如果为空，则默认为服务器定义的任务清单备用语言环境"
+}
