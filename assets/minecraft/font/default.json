@@ -1,0 +1,25 @@
+{
+  "providers": [
+    {
+      "type": "reference",
+      "id": "minecraft:include/space"
+    },
+    {
+      "type": "reference",
+      "id": "minecraft:include/default"
+    },
+    {
+      "type": "reference",
+      "id": "minecraft:include/unifont"
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/gallium.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "\uE6A1"
+      ]
+    }
+  ]
+}
