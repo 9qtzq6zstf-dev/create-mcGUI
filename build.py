@@ -170,27 +170,24 @@ def is_author_env():
 
 def refuse_release():
     out("")
-    out(red("❌ 警告：您无权发布此项目的 Release，此功能仅供原作者使用。"))
-    out("")
-    sys.exit(1)
+    die(red("当前环境仅支持自用版打包（仅本地打包到 dist/）。"))
 
 
 # --------------------------------------------------------------------------- #
 # 参数
 # --------------------------------------------------------------------------- #
-def parse_args(argv):
+def parse_args(argv, allow_release=True):
     parser = argparse.ArgumentParser(
         prog="build.py",
         description="Create MC GUI 资源包打包脚本（白名单打包到 dist/）",
         add_help=True,
     )
     parser.add_argument("-v", "--version", dest="version", help="版本号，例如 1.0.0（不要带 v）")
-    parser.add_argument(
-        "-m",
-        "--mode",
-        dest="mode",
-        help="打包模式：1 = 发行版（打包 + tag + push + GitHub Release），2 = 自用版（仅本地打包）",
-    )
+    if allow_release:
+        mode_help = "打包模式：1 = 发行版（打包 + tag + push + GitHub Release），2 = 自用版（仅本地打包）"
+    else:
+        mode_help = "打包模式：2 = 自用版（仅本地打包到 dist/）"
+    parser.add_argument("-m", "--mode", dest="mode", help=mode_help)
     return parser.parse_args(argv)
 
 
@@ -224,22 +221,15 @@ def parse_mode(raw):
     return None
 
 
-def ask_mode(allow_release=True):
+def ask_mode():
     out("")
     out("请选择打包模式：")
-    if allow_release:
-        out("  1. 发行版（打包 + git tag/push + GitHub Release）")
-    else:
-        out("  1. 发行版（当前环境不可用，仅供原作者）")
+    out("  1. 发行版（打包 + git tag/push + GitHub Release）")
     out("  2. 自用版（仅本地打包到 dist/）")
     while True:
         mode = parse_mode(input("输入 1 或 2："))
-        if mode == 2:
+        if mode in MODE_NAMES:
             return mode
-        if mode == 1:
-            if allow_release:
-                return mode
-            refuse_release()
         out("[提示] 只能输入 1 或 2，请重新选择。")
 
 
@@ -471,35 +461,35 @@ def release(version, zip_path):
 # main
 # --------------------------------------------------------------------------- #
 def main(argv=None):
-    args = parse_args(argv if argv is not None else sys.argv[1:])
-
     if not ROOT.is_dir():
         die("无法定位脚本所在目录。")
 
     _enable_vt_mode()
     author_env = is_author_env()
 
+    args = parse_args(argv if argv is not None else sys.argv[1:], allow_release=author_env)
+
     version = normalize_version(args.version)
     mode = parse_mode(args.mode)
 
-    if not author_env:
-        out("")
-        out(yellow("提示：未检测到原作者仓库，发行版（模式 1）已禁用，仅可本地打包。"))
-
     if not version:
         version = ask_version()
-    if mode not in MODE_NAMES:
-        if (args.mode or "").strip():
-            warn("模式参数 %r 无法识别，改为交互式选择。" % args.mode)
-        mode = ask_mode(allow_release=author_env)
 
-    if mode == 1 and not author_env:
-        refuse_release()
+    if author_env:
+        if mode not in MODE_NAMES:
+            if (args.mode or "").strip():
+                warn("模式参数 %r 无法识别，改为交互式选择。" % args.mode)
+            mode = ask_mode()
+    else:
+        # 非作者环境只有自用版，不提供也不提示发行选项
+        if (args.mode or "").strip() and mode != 2:
+            refuse_release()
+        mode = 2
 
     out("")
     out("版本号：%s" % version)
     out("模式  ：%d（%s）" % (mode, MODE_NAMES[mode]))
-    out("环境  ：%s" % ("原作者仓库" if author_env else "非原作者仓库（发行版已禁用）"))
+    out("环境  ：%s" % ("原作者仓库" if author_env else "本地打包环境"))
     out("根目录：%s" % ROOT)
 
     zip_path = build_zip(version)
