@@ -1,0 +1,12 @@
+//使用置物板形状时请在任务编辑中加上"create"标签
+//When using a placard shape, add the "create" tag in the quest editor
+
+[#create]
+quest_not_started_color: #01FFFFFF
+quest_started_color:     #01FFFFFF
+quest_locked_color:      #01FFFFFF
+quest_completed_color:   #FFFFFFFF
+
+[*]
+pin_icon_off: ftbquests:textures/gui/pin.png; color=#FFFFFFFF
+pin_icon_on:  ftbquests:textures/gui/pin_on.png; color=#FFFFFFFF
