@@ -21,6 +21,7 @@ import re
 import shutil
 import subprocess
 import sys
+import webbrowser
 import zipfile
 from pathlib import Path
 
@@ -426,15 +427,20 @@ def preflight_release(version):
     return tag
 
 
-def ask_release_notes():
-    """交互式读取单行更新日志；直接回车（或 stdin 结束）返回空字符串表示无日志。"""
-    out("")
-    out("请输入本次发布的更新日志（支持单行，直接回车则无日志）：")
-    try:
-        return input("> ").strip()
-    except EOFError:
-        out("")
-        return ""
+def repo_web_slug():
+    """从 remote.origin.url 取出 owner/repo（保留原始大小写与连字符），用于拼接网页地址。"""
+    url = get_remote_url().strip().rstrip("/")
+    if url.endswith(".git"):
+        url = url[:-4]
+    parts = [p for p in re.split(r"[/:]", url) if p]
+    if len(parts) >= 2:
+        return "%s/%s" % (parts[-2], parts[-1])
+    return "9qtzq6zstf-dev/create-mcGUI"
+
+
+def release_edit_url(tag):
+    """草稿 Release 的网页编辑地址。"""
+    return "https://github.com/%s/releases/edit/%s" % (repo_web_slug(), tag)
 
 
 def release(version, zip_path):
@@ -442,7 +448,6 @@ def release(version, zip_path):
     out("[2/2] 发行版发布流程")
 
     tag = preflight_release(version)
-    notes = ask_release_notes()
 
     out("")
     out("      创建 tag：%s" % tag)
@@ -451,31 +456,64 @@ def release(version, zip_path):
     out("      推送 tag 到 origin ...")
     run_cmd(["git", "push", "origin", tag])
 
-    out("      创建 GitHub Release 并上传 zip ...")
+    out("      创建草稿 Release 并上传 zip ...")
     gh_args = [
         "gh",
         "release",
         "create",
         tag,
         str(zip_path),
+        "--draft",
         "--title",
         "Create MC GUI %s" % tag,
+        # 显式传空：更新日志留给网页填写，同时避免 gh 进入交互式编辑器
+        "--notes",
+        "",
     ]
-    if notes:
-        out("      更新日志：%s" % notes)
-        gh_args += ["--notes", notes]
-    else:
-        out("      更新日志：（无）")
-        # 显式传空字符串，避免 gh 在缺少 --notes 时进入交互式编辑器
-        gh_args += ["--notes", ""]
-
     # 版本号带连字符（如 1.0.0-beta / 1.0.0-rc.1）视为预发布
     if "-" in version:
         out("      版本号含 '-'，已标记为 pre-release。")
         gh_args.append("--prerelease")
-    run_cmd(gh_args)
+
+    out("      $ " + " ".join(gh_args))
+    proc = subprocess.run(
+        gh_args,
+        cwd=str(ROOT),
+        text=True,
+        capture_output=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    for line in (proc.stdout or "").splitlines():
+        out("      " + line)
+    if proc.stderr:
+        sys.stderr.write(proc.stderr)
+    if proc.returncode != 0:
+        die("创建草稿 Release 失败（退出码 %d），请检查上面的报错信息。" % proc.returncode)
+
+    # gh 对草稿输出的是 /releases/tag/untagged-<hash>：
+    # 草稿未发布前 GitHub 用 untagged 作为临时标识，编辑页是同一标识下的 /edit/ 路径。
+    draft_url = ""
+    for line in reversed((proc.stdout or "").splitlines()):
+        candidate = line.strip()
+        if candidate.startswith("http") and "/releases/tag/" in candidate:
+            draft_url = candidate
+            break
+    if draft_url:
+        url = draft_url.replace("/releases/tag/", "/releases/edit/")
+    else:
+        url = release_edit_url(tag)  # 兜底：按 tag 拼接
+
     out("")
-    out("[完成] %s 已发布（%s）。" % (tag, "预发布" if "-" in version else "正式版"))
+    out("✅ 草稿 Release 已创建，正在为你打开浏览器编辑页面...")
+    out("   %s" % url)
+    try:
+        if not webbrowser.open(url):
+            warn("无法自动打开浏览器，请手动访问上面的链接。")
+    except Exception as exc:  # noqa: BLE001 - 打开浏览器失败不应影响发版结果
+        warn("无法自动打开浏览器（%s），请手动访问上面的链接。" % exc)
+    out("")
+    out("请在网页中填写更新日志，并点击 Publish release 发布。")
 
 
 # --------------------------------------------------------------------------- #
