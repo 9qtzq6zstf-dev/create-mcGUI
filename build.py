@@ -17,6 +17,7 @@ Create MC GUI 资源包打包脚本
 import argparse
 import hashlib
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -40,12 +41,52 @@ LICENSE_NAMES = (
 
 MODE_NAMES = {1: "发行版", 2: "自用版"}
 
+# 原作者仓库标识（owner/repo），用于限制 Release 发布功能
+AUTHOR_OWNER = "9qtzq6zstfdev"
+AUTHOR_REPO = "createmcgui"
+
 # 输出重定向（管道/日志）时统一用 UTF-8，避免中文乱码
 for _stream in (sys.stdout, sys.stderr):
     try:
         _stream.reconfigure(encoding="utf-8", errors="replace")
     except (AttributeError, ValueError):
         pass
+
+
+# --------------------------------------------------------------------------- #
+# 终端颜色
+# --------------------------------------------------------------------------- #
+_NO_COLOR = bool(os.environ.get("NO_COLOR")) or not sys.stdout.isatty()
+
+
+def _enable_vt_mode():
+    """让 Windows 控制台支持 ANSI 转义序列（失败则忽略）。"""
+    if os.name != "nt":
+        return
+    try:
+        import ctypes
+
+        kernel32 = ctypes.windll.kernel32
+        handle = kernel32.GetStdHandle(-11)  # STD_OUTPUT_HANDLE
+        mode = ctypes.c_uint32()
+        if kernel32.GetConsoleMode(handle, ctypes.byref(mode)):
+            kernel32.SetConsoleMode(handle, mode.value | 0x0004)  # ENABLE_VIRTUAL_TERMINAL_PROCESSING
+    except Exception:
+        pass
+
+
+def _color(text, code):
+    if _NO_COLOR:
+        return text
+    return "\033[%sm%s\033[0m" % (code, text)
+
+
+def red(text):
+    return _color(text, "31")
+
+
+def yellow(text):
+    return _color(text, "33")
 
 
 # --------------------------------------------------------------------------- #
@@ -79,6 +120,59 @@ def human_size(num):
         if num < 1024 or unit == "GB":
             return "%.1f %s" % (num, unit)
         num /= 1024.0
+
+
+# --------------------------------------------------------------------------- #
+# 环境检测（防盗版）
+# --------------------------------------------------------------------------- #
+def _slug(text):
+    """去掉大小写、连字符、下划线等差异，便于比对 owner/repo。"""
+    return "".join(ch for ch in text.lower() if ch.isalnum())
+
+
+def _owner_repo(url):
+    u = (url or "").strip().rstrip("/")
+    if u.endswith(".git"):
+        u = u[:-4]
+    parts = [p for p in re.split(r"[/:]", u) if p]
+    if len(parts) >= 2:
+        return _slug(parts[-2]), _slug(parts[-1])
+    return None
+
+
+def get_remote_url():
+    try:
+        proc = subprocess.run(
+            ["git", "config", "--get", "remote.origin.url"],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+    except (FileNotFoundError, OSError):
+        return ""
+    if proc.returncode != 0:
+        return ""
+    return proc.stdout.strip()
+
+
+def is_author_env():
+    """远程仓库指向原作者仓库时返回 True；否则视为 Fork / 下载副本（失败即按非作者处理）。"""
+    url = get_remote_url()
+    if not url:
+        return False
+    pair = _owner_repo(url)
+    if pair is not None:
+        return pair == (AUTHOR_OWNER, AUTHOR_REPO)
+    return AUTHOR_OWNER in _slug(url) and AUTHOR_REPO in _slug(url)
+
+
+def refuse_release():
+    out("")
+    out(red("❌ 警告：您无权发布此项目的 Release，此功能仅供原作者使用。"))
+    out("")
+    sys.exit(1)
 
 
 # --------------------------------------------------------------------------- #
@@ -130,15 +224,22 @@ def parse_mode(raw):
     return None
 
 
-def ask_mode():
+def ask_mode(allow_release=True):
     out("")
     out("请选择打包模式：")
-    out("  1. 发行版（打包 + git tag/push + GitHub Release）")
+    if allow_release:
+        out("  1. 发行版（打包 + git tag/push + GitHub Release）")
+    else:
+        out("  1. 发行版（当前环境不可用，仅供原作者）")
     out("  2. 自用版（仅本地打包到 dist/）")
     while True:
         mode = parse_mode(input("输入 1 或 2："))
-        if mode in MODE_NAMES:
+        if mode == 2:
             return mode
+        if mode == 1:
+            if allow_release:
+                return mode
+            refuse_release()
         out("[提示] 只能输入 1 或 2，请重新选择。")
 
 
@@ -375,19 +476,30 @@ def main(argv=None):
     if not ROOT.is_dir():
         die("无法定位脚本所在目录。")
 
+    _enable_vt_mode()
+    author_env = is_author_env()
+
     version = normalize_version(args.version)
     mode = parse_mode(args.mode)
+
+    if not author_env:
+        out("")
+        out(yellow("提示：未检测到原作者仓库，发行版（模式 1）已禁用，仅可本地打包。"))
 
     if not version:
         version = ask_version()
     if mode not in MODE_NAMES:
         if (args.mode or "").strip():
             warn("模式参数 %r 无法识别，改为交互式选择。" % args.mode)
-        mode = ask_mode()
+        mode = ask_mode(allow_release=author_env)
+
+    if mode == 1 and not author_env:
+        refuse_release()
 
     out("")
     out("版本号：%s" % version)
     out("模式  ：%d（%s）" % (mode, MODE_NAMES[mode]))
+    out("环境  ：%s" % ("原作者仓库" if author_env else "非原作者仓库（发行版已禁用）"))
     out("根目录：%s" % ROOT)
 
     zip_path = build_zip(version)
@@ -398,6 +510,10 @@ def main(argv=None):
         out("")
         out("[完成] 自用版已打包：%s" % zip_path)
         out("       该模式不会创建 tag、不会 push、不会上传 Release。")
+        if not author_env:
+            out("")
+            out(yellow("⚠️ 警告：此压缩包仅供本地测试使用，请勿将其二次分发至任何公开平台。尊重原作者劳动成果！"))
+        out("")
         out("       正在打开 dist/ 文件夹 ...")
         open_folder(DIST_DIR)
 
@@ -409,4 +525,7 @@ if __name__ == "__main__":
         sys.exit(main())
     except KeyboardInterrupt:
         print("\n[已取消]")
+        sys.exit(130)
+    except EOFError:
+        print("\n[已取消] 未检测到交互输入（stdin 已结束），请用 -v/-m 参数调用。")
         sys.exit(130)
