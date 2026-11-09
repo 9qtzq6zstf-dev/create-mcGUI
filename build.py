@@ -45,8 +45,9 @@ MODE_NAMES = {1: "发行版", 2: "自用版"}
 AUTHOR_OWNER = "9qtzq6zstfdev"
 AUTHOR_REPO = "createmcgui"
 
-# 输出重定向（管道/日志）时统一用 UTF-8，避免中文乱码
-for _stream in (sys.stdout, sys.stderr):
+# 输出重定向（管道/日志）时统一用 UTF-8，避免中文乱码；
+# 输入同理，保证管道传入的更新日志不会按系统代码页误解码。
+for _stream in (sys.stdin, sys.stdout, sys.stderr):
     try:
         _stream.reconfigure(encoding="utf-8", errors="replace")
     except (AttributeError, ValueError):
@@ -425,11 +426,25 @@ def preflight_release(version):
     return tag
 
 
-def release(version, zip_path):
-    tag = preflight_release(version)
+def ask_release_notes():
+    """交互式读取单行更新日志；直接回车（或 stdin 结束）返回空字符串表示无日志。"""
+    out("")
+    out("请输入本次发布的更新日志（支持单行，直接回车则无日志）：")
+    try:
+        return input("> ").strip()
+    except EOFError:
+        out("")
+        return ""
 
+
+def release(version, zip_path):
     out("")
     out("[2/2] 发行版发布流程")
+
+    tag = preflight_release(version)
+    notes = ask_release_notes()
+
+    out("")
     out("      创建 tag：%s" % tag)
     run_cmd(["git", "tag", "-a", tag, "-m", "Release %s" % tag])
 
@@ -445,9 +460,15 @@ def release(version, zip_path):
         str(zip_path),
         "--title",
         "Create MC GUI %s" % tag,
-        "--notes",
-        "资源包版本 %s" % tag,
     ]
+    if notes:
+        out("      更新日志：%s" % notes)
+        gh_args += ["--notes", notes]
+    else:
+        out("      更新日志：（无）")
+        # 显式传空字符串，避免 gh 在缺少 --notes 时进入交互式编辑器
+        gh_args += ["--notes", ""]
+
     # 版本号带连字符（如 1.0.0-beta / 1.0.0-rc.1）视为预发布
     if "-" in version:
         out("      版本号含 '-'，已标记为 pre-release。")
