@@ -16,6 +16,7 @@ Create MC GUI 资源包打包脚本
 
 import argparse
 import hashlib
+import os
 import shutil
 import subprocess
 import sys
@@ -244,6 +245,16 @@ def build_zip(version):
     return zip_path
 
 
+def open_folder(path):
+    """用系统默认文件管理器打开目录（仅 Windows 生效），失败不影响打包结果。"""
+    if os.name != "nt":
+        return
+    try:
+        os.startfile(str(path))  # type: ignore[attr-defined]  仅 Windows 提供
+    except OSError as exc:
+        warn("自动打开 dist/ 失败（%s），请手动打开：%s" % (exc, path))
+
+
 # --------------------------------------------------------------------------- #
 # 发行版流程
 # --------------------------------------------------------------------------- #
@@ -387,6 +398,8 @@ def main(argv=None):
         out("")
         out("[完成] 自用版已打包：%s" % zip_path)
         out("       该模式不会创建 tag、不会 push、不会上传 Release。")
+        out("       正在打开 dist/ 文件夹 ...")
+        open_folder(DIST_DIR)
 
     return 0
 
