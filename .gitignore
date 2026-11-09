@@ -1,0 +1,18 @@
+# IDE 与系统文件
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# 打包输出与测试包
+dist/
+build/
+*.zip
+
+# 日志与临时文件
+*.log
+*.tmp
+*.bak
+
+# 依赖包
+node_modules/
