@@ -335,21 +335,24 @@ def release(version, zip_path):
     run_cmd(["git", "push", "origin", tag])
 
     out("      创建 GitHub Release 并上传 zip ...")
-    run_cmd(
-        [
-            "gh",
-            "release",
-            "create",
-            tag,
-            str(zip_path),
-            "--title",
-            "Create MC GUI %s" % tag,
-            "--notes",
-            "资源包版本 %s" % tag,
-        ]
-    )
+    gh_args = [
+        "gh",
+        "release",
+        "create",
+        tag,
+        str(zip_path),
+        "--title",
+        "Create MC GUI %s" % tag,
+        "--notes",
+        "资源包版本 %s" % tag,
+    ]
+    # 版本号带连字符（如 1.0.0-beta / 1.0.0-rc.1）视为预发布
+    if "-" in version:
+        out("      版本号含 '-'，已标记为 pre-release。")
+        gh_args.append("--prerelease")
+    run_cmd(gh_args)
     out("")
-    out("[完成] %s 已发布。" % tag)
+    out("[完成] %s 已发布（%s）。" % (tag, "预发布" if "-" in version else "正式版"))
 
 
 # --------------------------------------------------------------------------- #
