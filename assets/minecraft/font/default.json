@@ -20,6 +20,24 @@
       "chars": [
         "\uE6A1"
       ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/yinjiu019.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "\uE019"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/ouyangmingcheng.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "\uE717"
+      ]
     }
   ]
 }
