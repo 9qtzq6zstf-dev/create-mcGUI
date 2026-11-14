@@ -38,6 +38,15 @@
       "chars": [
         "\uE717"
       ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/baihuateng.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "\uEb1f"
+      ]
     }
   ]
 }
