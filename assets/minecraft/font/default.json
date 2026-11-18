@@ -47,6 +47,15 @@
       "chars": [
         "\uEb1f"
       ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/ff.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "\uEfff"
+      ]
     }
   ]
 }
